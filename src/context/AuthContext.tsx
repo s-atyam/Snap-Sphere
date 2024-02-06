@@ -18,6 +18,7 @@ const INITIAL_STATE = {
     isAuthenticated: false,
     setUser: ()=>{},
     setIsAuthenticated: ()=>{},
+    setIsLoading: ()=>{},
     checkAuthUser:async () => false as boolean
 }
 
@@ -62,6 +63,7 @@ const AuthProvider = ({ children } : { children: React.ReactNode }) => {
     useEffect(() => {
       if(localStorage.getItem('cookieFallback') === '[]' || localStorage.getItem('cookieFallback') === null){
         navigate('/sign-in')
+        return
       }
 
       checkAuthUser()
@@ -73,6 +75,7 @@ const AuthProvider = ({ children } : { children: React.ReactNode }) => {
         setUser,
         isLoading,
         isAuthenticated,
+        setIsLoading,
         setIsAuthenticated,
         checkAuthUser
     }

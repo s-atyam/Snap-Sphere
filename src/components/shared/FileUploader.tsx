@@ -25,20 +25,29 @@ const FileUploader = ({ fieldChange, mediaUrl }: FileUploaderProps) => {
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
     accept: {
-      "image/*": [".png", ".jpeg", ".jpg", ".svg"],
+      "image/*": [".png", ".jpeg", ".jpg", ".svg", ".gif",".psd"],
+      "video/*": [".mp4", ".mov", ".avi", ".wmv", ".mkv", ".webm"],
     },
   });
 
   return (
     <div
       {...getRootProps()}
-      className="flex flex-center flex-col bg-dark-3 rounded-xl cursor-pointer">
-      <input {...getInputProps()} className="cursor-pointer" />
+      className="flex flex-center flex-col bg-dark-2 rounded-xl cursor-pointer">
+      <input {...getInputProps()} className="cursor-pointer bg-green-400" />
 
       {fileUrl ? (
         <>
           <div className="flex flex-1 justify-center w-full p-5 lg:p-10">
-            <img src={fileUrl} alt="image" className="file_uploader-img" />
+            {file[0].type.startsWith('video') &&
+              <video controls width={600} height={400}>
+                <source src={fileUrl} type="video/mp4"/>
+              </video>
+            }
+            {file[0].type.startsWith('image') &&
+              <img src={fileUrl} alt="image" className="file_uploader-img" />
+            }
+            
           </div>
           <p className="file_uploader-label">Click or drag photo to replace</p>
         </>

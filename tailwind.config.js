@@ -1,5 +1,4 @@
 /** @type {import('tailwindcss').Config} */
-const defaultTheme = require('tailwindcss/defaultTheme')
 
 module.exports = {
   darkMode: ['class'],
@@ -20,15 +19,15 @@ module.exports = {
     },
     extend: {
       colors: {
-        'primary-500': '#877EFF',
-        'primary-600': '#5D5FEF',
+        'primary-500': '#4baad6',
+        'primary-600': '#2493be',
         'secondary-500': '#FFB620',
         'off-white': '#D0DFFF',
         'red': '#FF5A5A',
-        'dark-1': '#000000',
-        'dark-2': '#09090A',
-        'dark-3': '#101012',
-        'dark-4': '#1F1F22',
+        'dark-1': '#181818',
+        'dark-2': '#1d1d22',
+        'dark-3': '#010102',
+        'dark-4': '#3a3a41',
         'light-1': '#FFFFFF',
         'light-2': '#EFEFEF',
         'light-3': '#7878A3',
@@ -36,15 +35,10 @@ module.exports = {
       },
       screens: {
         'xs': '480px',
-      
       },
       width: {
         '420': '420px',
         '465': '465px',
-      },
-      fontFamily: {
-        inter: ['Inter', 'sans-serif'],
-
       },
       keyframes: {
         'accordion-down': {

@@ -4,6 +4,7 @@ export type IContextType = {
   setUser: React.Dispatch<React.SetStateAction<IUser>>;
   isAuthenticated: boolean;
   setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
   checkAuthUser: () => Promise<boolean>;
 }
 
@@ -26,6 +27,7 @@ export type INewPost = {
   userId: string;
   caption: string;
   file: File[];
+  type: string
   location?: string;
   tags?: string;
 };
@@ -38,6 +40,7 @@ export type IUpdatePost = {
   file: File[];
   location?: string;
   tags?: string;
+  type: string;
 };
 
 export type IUser = {

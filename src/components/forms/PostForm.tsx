@@ -49,6 +49,7 @@ const PostForm = ({ post, action }: PostFormProps) => {
 
   // Handler
   const handleSubmit = async (value: z.infer<typeof PostValidation>) => {
+    console.log(post)
     // ACTION = UPDATE
     if (post && action === "Update") {
       const updatedPost = await updatePost({
@@ -56,6 +57,7 @@ const PostForm = ({ post, action }: PostFormProps) => {
         postId: post.$id,
         imageId: post.imageId,
         imageUrl: post.imageUrl,
+        type: value.file[0].type
       });
 
       if (!updatedPost) {
@@ -70,6 +72,8 @@ const PostForm = ({ post, action }: PostFormProps) => {
     const newPost = await createPost({
       ...value,
       userId: user.id,
+      type:value.file[0].type,
+    
     });
 
     if (!newPost) {

@@ -124,9 +124,17 @@ export async function createPost(post: INewPost) {
     const uploadedFile = await uploadFile(post.file[0]);
 
     if (!uploadedFile) throw Error;
-
+    console.log(uploadedFile)
+    
     // Get file url
-    const fileUrl = getFilePreview(uploadedFile.$id);
+    let fileUrl
+    if(uploadedFile.mimeType.startsWith('video')){
+      fileUrl = getFilePreview(uploadedFile.$id,'video')
+
+    }else if(uploadedFile.mimeType.startsWith('image')){
+      fileUrl = getFilePreview(uploadedFile.$id,'image')
+    }
+
     if (!fileUrl) {
       await deleteFile(uploadedFile.$id);
       throw Error;
@@ -147,6 +155,7 @@ export async function createPost(post: INewPost) {
         imageId: uploadedFile.$id,
         location: post.location,
         tags: tags,
+        type:post.type
       }
     );
 
@@ -177,16 +186,21 @@ export async function uploadFile(file: File) {
 }
 
 // ============================== GET FILE URL
-export function getFilePreview(fileId: string) {
+export function getFilePreview(fileId: string,type: string) {
   try {
-    const fileUrl = storage.getFilePreview(
-      appwriteConfig.storageId,
-      fileId,
-      2000,
-      2000,
-      "top",
-      100
-    );
+    let fileUrl
+    if(type==='video' || type==='audio'){
+      fileUrl = storage.getFileView(appwriteConfig.storageId,fileId)
+    }else{
+      fileUrl = storage.getFilePreview(
+        appwriteConfig.storageId,
+        fileId,
+        2000,
+        2000,
+        "top",
+        100
+      );
+    }
 
     if (!fileUrl) throw Error;
 
@@ -213,7 +227,7 @@ export async function searchPosts(searchTerm: string) {
     const posts = await databases.listDocuments(
       appwriteConfig.databaseId,
       appwriteConfig.postCollectionId,
-      [Query.search("caption", searchTerm)]
+      [Query.search("caption", searchTerm),Query.search("tags", searchTerm)],
     );
 
     if (!posts) throw Error;
@@ -281,7 +295,14 @@ export async function updatePost(post: IUpdatePost) {
       if (!uploadedFile) throw Error;
 
       // Get new file url
-      const fileUrl = getFilePreview(uploadedFile.$id);
+      let fileUrl
+      if(uploadedFile.mimeType.startsWith('video')){
+        fileUrl = getFilePreview(uploadedFile.$id,'video')
+
+      }else if(uploadedFile.mimeType.startsWith('image')){
+        fileUrl = getFilePreview(uploadedFile.$id,'image')
+      }
+
       if (!fileUrl) {
         await deleteFile(uploadedFile.$id);
         throw Error;
@@ -503,7 +524,14 @@ export async function updateUser(user: IUpdateUser) {
       if (!uploadedFile) throw Error;
 
       // Get new file url
-      const fileUrl = getFilePreview(uploadedFile.$id);
+      let fileUrl
+      if(uploadedFile.mimeType.startsWith('video')){
+        fileUrl = getFilePreview(uploadedFile.$id,'video')
+
+      }else if(uploadedFile.mimeType.startsWith('image')){
+        fileUrl = getFilePreview(uploadedFile.$id,'image')
+      }
+      
       if (!fileUrl) {
         await deleteFile(uploadedFile.$id);
         throw Error;

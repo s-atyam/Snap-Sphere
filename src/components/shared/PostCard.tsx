@@ -11,6 +11,7 @@ type PostCardProps = {
 
 const PostCard = ({ post }: PostCardProps) => {
   const { user } = useUserContext();
+  console.log(post)
 
   if (!post.creator) return;
 
@@ -69,11 +70,18 @@ const PostCard = ({ post }: PostCardProps) => {
           </ul>
         </div>
 
-        <img
-          src={post.imageUrl || "/assets/icons/profile-placeholder.svg"}
-          alt="post image"
-          className="post-card_img"
-        />
+        {post.type?.startsWith('video') &&
+          <video controls controlsList="nodownload" width={600} height={400} className="rounded-md">
+            <source src={post.imageUrl} type="video/mp4"/>
+          </video>
+        }
+        {(post.type?.startsWith('image') || post.type===null)&&
+          <img
+            src={post.imageUrl || "/assets/icons/profile-placeholder.svg"}
+            alt="post image"
+            className="post-card_img"
+          />
+        }
       </Link>
 
       <PostStats post={post} userId={user.id} />
